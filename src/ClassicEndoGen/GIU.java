@@ -22,7 +22,7 @@ public class GIU extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	//INSTANCE VARIABLES
-	ClassicEndoGen EndoGen = new ClassicEndoGen();
+	EndorsementProcessor EndoGen = new EndorsementProcessor();
 	
 	
 	private JPanel contentPane;
@@ -323,14 +323,14 @@ public class GIU extends JFrame {
 			try{
 				if(PrecisCheckBox.isSelected()){
 					EndoGen.setPrecisValues(PrecisCheckBox.isSelected(),SchemeCodeValue.getText(),PolicyTypeValue.getText(),BrokerCode1Value.getText(),BrokerCode2Value.getText(),AffinityCodeValue.getText(),StartDateValue.getText(),EndDateValue.getText());
-					System.out.println("set precis values");
+				//	System.out.println("set precis values");
 				}
 				if(ClassicCheckBox.isSelected()){
 					EndoGen.setClassicValues(ClassicCheckBox.isSelected(),Classic_Bold_Font.getText() , Classic_Normal_Font.getText() , Classic_Current_Height.getText() ,  classic_LineSpace.getText() , Classic_paragraphSpace.getText() , Classic_Margin.getText() , Classic_Page_Height.getText() , Classic_Total_Height.getText() , Classic_Line_Size.getText());
-					System.out.println("set classic values");
+				//	System.out.println("set classic values");
 				}
 				
-				EndoGen.setValues(ClassicCheckBox.isSelected(), PrecisCheckBox.isSelected());
+			//	EndoGen.setValues(ClassicCheckBox.isSelected(), PrecisCheckBox.isSelected());
 				EndoGen.run();
 			}
 			catch(Exception ex){

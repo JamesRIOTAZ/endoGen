@@ -352,7 +352,7 @@ public class endorsement {
 				}
 			}
 
-			System.out.println("formated line = <"+formatLine+">");
+		//	System.out.println("formated line = <"+formatLine+">");
 			workingLine = formatLine;
 
 			if (Character.toString(workingLine.charAt(workingLine.length() - 1)).equals(" ")) {

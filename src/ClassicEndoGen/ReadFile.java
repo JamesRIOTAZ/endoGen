@@ -18,7 +18,7 @@ public class ReadFile {
 	public ReadFile() {
 	}
 
-	public List getData() throws Exception {
+	public List<List<HSSFCell>> getData() throws Exception {
 		String filename = "c:/endoGen/endorsement.xls";
 
 		List sheetData = new ArrayList();
@@ -27,11 +27,8 @@ public class ReadFile {
 
 		try {
 			fis = new FileInputStream(filename);
-
 			workbook = new HSSFWorkbook(fis);
-
 			HSSFSheet sheet = workbook.getSheetAt(0);
-
 			List data = new ArrayList();
 			Iterator rows = sheet.rowIterator();
 			while (rows.hasNext()) {
@@ -50,7 +47,6 @@ public class ReadFile {
 						}
 						data.add(cell);
 						HSSFCell cell1 = row.getCell(1);
-
 						data.add(cell1);
 					}
 					HSSFCell cell2 = row.getCell(2);

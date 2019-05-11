@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class precisEndorsement {
 	WriteFile data;
-	private ArrayList<String> endoPara = new ArrayList();
+	private ArrayList<String> endoPara = new ArrayList<>();
 	private String schemeCode = "XX";
 	private String polType = "PC";
 	private String brokerCode1 = "ALL";
