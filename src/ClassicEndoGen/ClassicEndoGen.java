@@ -67,7 +67,7 @@ public class ClassicEndoGen {
 
 		List rawData = inputData.getData();
 
-		System.out.println(rawData.size());
+	//	System.out.println(rawData.size());
 		showExelData(rawData, inputData);
 	}
 
@@ -83,7 +83,7 @@ public class ClassicEndoGen {
 		String tempPrecisWording = "";
 		String breakline = System.getProperty("line.separator");
 
-		System.out.println(sheetData.size());
+//		System.out.println(sheetData.size());
 
 		for (int i = 0; i < sheetData.size(); i++) {
 			List list = (List) sheetData.get(i);
@@ -92,20 +92,20 @@ public class ClassicEndoGen {
 				if (j == 0) {
 					cell.setCellType(1);
 					tempCode = cell.toString();
-					System.out.println(tempCode);
+			//		System.out.println(tempCode);
 				} else if (j == 1) {
 					tempTitle = cell.toString();
-					System.out.println(tempTitle);
+			//		System.out.println(tempTitle);
 				} else if (j == 2) {
 					HSSFRichTextString tempRichWording = cell.getRichStringCellValue();
 					tempWording = formatString(tempRichWording, inputData);
 					tempPrecisWording = formatPrecisString(tempRichWording, inputData);
-					System.out.println(tempPrecisWording);
+				//	System.out.println(tempPrecisWording);
 				} else if (j > 2) {
 					HSSFRichTextString tempRichWording = cell.getRichStringCellValue();
 					tempWording = tempWording + breakline + formatString(tempRichWording, inputData);
 					tempPrecisWording = tempPrecisWording + breakline + formatPrecisString(tempRichWording, inputData);
-					System.out.println(tempPrecisWording);
+				//	System.out.println(tempPrecisWording);
 				}
 			}
 

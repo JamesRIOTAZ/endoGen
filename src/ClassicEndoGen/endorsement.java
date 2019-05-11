@@ -124,154 +124,273 @@ public class endorsement {
 	}
 
 	public ArrayList getDisplayLines(String rawPara) {
+
+		rawPara = rawPara.trim().replaceAll(" +", " ");
 		String[] words = rawPara.split(" ");
 		String line = "";
 		int charCount = 0;
-
+		
 		ArrayList<String> displayLine = new ArrayList();
 
 		for (int x = 0; x < words.length; x++) {
+		//	boolean empty = false;
+		//	if(words[x]==null)
+		//		empty = true;
+		//	System.out.println("word split = <"+words[x]+"> "+empty);
 			charCount = charCount + words[x].length() + 1;
 
 			if (charCount > lineCharNum) {
+			//	System.out.println("adding to displayLine array 1 <"+line+">");
 				displayLine.add(line);
 				line = "";
 				charCount = 0;
 			}
 			line = line + words[x] + " ";
 		}
+		//System.out.println("adding to displayLine array 2 <"+line+">");
 		displayLine.add(line);
-
+		
 		return displayLine;
 	}
 
-	private void writeEndoText(String rawPara)
-    throws Exception
-  {
-    Boolean isBullet = Boolean.valueOf(false);
-    
+	// Method to take in a Paragraph and output the presribe code
+	private void writeEndoText2(String rawPara) throws Exception{
+	//	System.out.println("rawPara = "+rawPara);
+		Boolean isBullet = false; //used to set if the paragraph is a bullet point
+		
+		for(int y = 0; y < rawPara.length(); y++) {
+		//	Character tempCher = rawPara.charAt(y);
+		//	tempCher.charValue()
+		//	System.out.println("Char = <"+rawPara.charAt(y)+"> whitespace = "+Character.isWhitespace(rawPara.charAt(y)));
+			
+			//Character.
+		}
+		
+		
+		
+	    //Check if first line is bold
+		//if(Character.toString(rawPara.charAt(0)).equals("<")){
+		//}
+		
+		//check for bullet character at the start of a paragraph
+		if(Character.toString(rawPara.charAt(0)).equals("•") || Character.toString(rawPara.charAt(0)).equals("·")){
+			isBullet = true;
+			endoPara.add(space+"MRP 0.15, 0.00; FONT 11; TEXT\".\"; FONT 13;"); 
+			endoPara.add("    MRP 0.15, 0.00;");
+			String removeBullet="";
+			for(int y = 1; y < rawPara.length(); y++) {
+				if(y==1 && (Character.toString(rawPara.charAt(y)).equals(" "))){
+					
+				}
+				else{
+				removeBullet=removeBullet+Character.toString(rawPara.charAt(y));
+				}
+			}
+			
+			rawPara=removeBullet;
+			
+		}
+		ArrayList<String> displayLine = getDisplayLines(rawPara);
+		String tempMove = lineSpace; 
+		
+		
+		//For each display line
+		for (int i = 0; i < displayLine.size(); i++) {
+			String outputLine = space; //code line to be output
+			String workingLine = displayLine.get(i); //get the wording
+			Boolean unbold = false; //used to add a font change to the end of a line if the last word is bold
+			Boolean rppNeed = false; //used to add a RRP; to the end of a line when needed
+			
+		
+			//check if the line has a font weight change start with a SCP;
+			if(workingLine.contains("{") || workingLine.contains("}")){
+				endoPara.add(space+"SCP;");
+				rppNeed=true;
+			}
+			
+			//Add code for bold/unbold;
+			String formatLine = "";
+		    for(int x = 0; x < workingLine.length(); x++) {
 
-    Character.toString(rawPara.charAt(0)).equals("<");
-    
+		    	 if(Character.toString(workingLine.charAt(x)).equals("{")){
+		    		 //check if its the first word in the line
+		    		 if(x==0){//check if its the first word in the line
+		    			 endoPara.add(space+boldFont);
+		    		 }
+		    		 else{
+		    			 formatLine=formatLine+"\",E; "+boldFont+" @    TEXT\"";
+		    		 }
+		    	 }
+		    	 else if(Character.toString(workingLine.charAt(x)).equals("}")){
+		    		 if(x==(workingLine.length()-2)){
+		    			 unbold=true;
+		    		 }
+		    		 else{
+		    			 formatLine=formatLine+"\",E; "+normalFont+" @    TEXT\"";
+		    		 }
+		    	 }
+		    	 else{
+		    		 if(x==workingLine.length()-1 && Character.toString(workingLine.charAt(x)).equals(" ")){
+		    			 //don't add space at end of a line
+		    		 }
+		    		 else if((int)workingLine.charAt(x)==160){
+		    			 //don't add white space
+		    		 }
+		    		 else{
+		    			 formatLine=formatLine+Character.toString(workingLine.charAt(x));
+		    		 }
+		    	 }
+		    }
+		    
 
+		    workingLine=formatLine;
+		    
+		    if(Character.toString(workingLine.charAt(workingLine.length()-1)).equals(" ")){
+		    	
+		    	workingLine.replace(workingLine.substring(workingLine.length()-1), "");
+		    }
+		    
+		    
+		    String tempHorMove="@    "+movePos;
+			//check if last line in paragraph and set the correct line space
+			if(i+1==displayLine.size()){
+				if(lastEndoLine){
+					tempMove = lastLineHeight;
+				}
+				else{
+					tempMove = paragraphSpace;
+				}
+				endoHeight=endoHeight+paraSpaceNum;
+				//System.out.println("Endo height is"+endoHeight);
+				if(isBullet){
+					tempHorMove="@    MRP-0.30, ";
+				}
+			}
+			else{
+				endoHeight=endoHeight+lineSpaceNum;
+			//	System.out.println("Endo height is"+endoHeight);
+			}
+			
+			if(rppNeed){
+				outputLine=outputLine+"TEXT\""+workingLine+"\"; RPP; "+tempHorMove+tempMove;
+			}
+			else{
+				outputLine=outputLine+"TEXT\""+workingLine+"\"; "+tempHorMove+tempMove;
+			}
+			
+			
+			if(unbold){
+				outputLine=outputLine+" "+normalFont;
+			}
 
+		    
+		    String[] eachLine = outputLine.split("@");
+		    for(String result : eachLine){
+		    //	System.out.println("rseult = "+result);
+		    	endoPara.add(result);
+		    }
+		}
+	}
+	
+	//new method
+	private void writeEndoText(String rawPara) throws Exception {
+	//	System.out.println("rawPara = "+rawPara);
+		Boolean isBullet = Boolean.valueOf(false);
 
+		Character.toString(rawPara.charAt(0)).equals("<");
 
-    if ((Character.toString(rawPara.charAt(0)).equals("â€¢")) || (Character.toString(rawPara.charAt(0)).equals("Â·"))) {
-      isBullet = Boolean.valueOf(true);
-      endoPara.add(space + "MRP 0.15, 0.00; FONT 11; TEXT\".\"; FONT 13;");
-      endoPara.add("    MRP 0.15, 0.00;");
-      String removeBullet = "";
-      for (int y = 1; y < rawPara.length(); y++) {
-        if ((y != 1) || (!Character.toString(rawPara.charAt(y)).equals(" ")))
-        {
+		if(Character.toString(rawPara.charAt(0)).equals("•") || Character.toString(rawPara.charAt(0)).equals("·")){
+			isBullet = Boolean.valueOf(true);
+			endoPara.add(space + "MRP 0.15, 0.00; FONT 11; TEXT\".\"; FONT 13;");
+			endoPara.add("    MRP 0.15, 0.00;");
+			String removeBullet = "";
+			for (int y = 1; y < rawPara.length(); y++) {
+				if ((y != 1) || (!Character.toString(rawPara.charAt(y)).equals(" "))) {
 
+					removeBullet = removeBullet + Character.toString(rawPara.charAt(y));
+				}
+			}
 
-          removeBullet = removeBullet + Character.toString(rawPara.charAt(y));
-        }
-      }
-      
-      rawPara = removeBullet;
-    }
-    
-    ArrayList<String> displayLine = getDisplayLines(rawPara);
-    String tempMove = lineSpace;
-    
+			rawPara = removeBullet;
+		}
 
+		ArrayList<String> displayLine = getDisplayLines(rawPara);
+		String tempMove = lineSpace;
 
-    for (int i = 0; i < displayLine.size(); i++) {
-      String outputLine = space;
-      String workingLine = (String)displayLine.get(i);
-      Boolean unbold = Boolean.valueOf(false);
-      Boolean rppNeed = Boolean.valueOf(false);
-      
+		for (int i = 0; i < displayLine.size(); i++) {
+			String outputLine = space;
+			String workingLine = (String) displayLine.get(i);
+			Boolean unbold = Boolean.valueOf(false);
+			Boolean rppNeed = Boolean.valueOf(false);
 
+			if ((workingLine.contains("{")) || (workingLine.contains("}"))) {
+				endoPara.add(space + "SCP;");
+				rppNeed = Boolean.valueOf(true);
+			}
 
-      if ((workingLine.contains("{")) || (workingLine.contains("}"))) {
-        endoPara.add(space + "SCP;");
-        rppNeed = Boolean.valueOf(true);
-      }
-      
+			String formatLine = "";
+			for (int x = 0; x < workingLine.length(); x++) {
+				if (Character.toString(workingLine.charAt(x)).equals("{")) {
+					if (x == 0) {
+						endoPara.add(space + boldFont);
+					} else {
+						formatLine = formatLine + "\",E; " + boldFont + " @    TEXT\"";
+					}
+				} else if (Character.toString(workingLine.charAt(x)).equals("}")) {
+					if (x == workingLine.length() - 2) {
+						unbold = Boolean.valueOf(true);
+					} else {
+						formatLine = formatLine + "\",E; " + normalFont + " @    TEXT\"";
+					}
 
-      String formatLine = "";
-      for (int x = 0; x < workingLine.length(); x++)
-      {
-        if (Character.toString(workingLine.charAt(x)).equals("{"))
-        {
-          if (x == 0) {
-            endoPara.add(space + boldFont);
-          }
-          else {
-            formatLine = formatLine + "\",E; " + boldFont + " @    TEXT\"";
-          }
-        }
-        else if (Character.toString(workingLine.charAt(x)).equals("}")) {
-          if (x == workingLine.length() - 2) {
-            unbold = Boolean.valueOf(true);
-          }
-          else {
-            formatLine = formatLine + "\",E; " + normalFont + " @    TEXT\"";
-          }
-          
-        }
-        else if ((x != workingLine.length() - 1) || (!Character.toString(workingLine.charAt(x)).equals(" ")))
-        {
+				} else if ((x != workingLine.length() - 1) || (!Character.toString(workingLine.charAt(x)).equals(" "))) {
 
-          if (workingLine.charAt(x) != ' ')
-          {
+				//	if (workingLine.charAt(x) != 'Â') {
 
+						formatLine = formatLine + Character.toString(workingLine.charAt(x));
+				//	}
+				}
+			}
 
-            formatLine = formatLine + Character.toString(workingLine.charAt(x));
-          }
-        }
-      }
-      
+			System.out.println("formated line = <"+formatLine+">");
+			workingLine = formatLine;
 
-      workingLine = formatLine;
-      
-      if (Character.toString(workingLine.charAt(workingLine.length() - 1)).equals(" "))
-      {
-        workingLine.replace(workingLine.substring(workingLine.length() - 1), "");
-      }
-      
+			if (Character.toString(workingLine.charAt(workingLine.length() - 1)).equals(" ")) {
+				workingLine.replace(workingLine.substring(workingLine.length() - 1), "");
+			}
 
-      String tempHorMove = "@    " + movePos;
-      
-      if (i + 1 == displayLine.size()) {
-        if (lastEndoLine) {
-          tempMove = lastLineHeight;
-        }
-        else {
-          tempMove = paragraphSpace;
-        }
-        endoHeight += paraSpaceNum;
-        
-        if (isBullet.booleanValue()) {
-          tempHorMove = "@    MRP-0.30, ";
-        }
-      }
-      else {
-        endoHeight += lineSpaceNum;
-      }
-      
+			String tempHorMove = "@    " + movePos;
 
-      if (rppNeed.booleanValue()) {
-        outputLine = outputLine + "TEXT\"" + workingLine + "\"; RPP; " + tempHorMove + tempMove;
-      }
-      else {
-        outputLine = outputLine + "TEXT\"" + workingLine + "\"; " + tempHorMove + tempMove;
-      }
-      
+			if (i + 1 == displayLine.size()) {
+				if (lastEndoLine) {
+					tempMove = lastLineHeight;
+				} else {
+					tempMove = paragraphSpace;
+				}
+				endoHeight += paraSpaceNum;
 
-      if (unbold.booleanValue()) {
-        outputLine = outputLine + " " + normalFont;
-      }
-      
+				if (isBullet.booleanValue()) {
+					tempHorMove = "@    MRP-0.30, ";
+				}
+			} else {
+				endoHeight += lineSpaceNum;
+			}
 
-      String[] eachLine = outputLine.split("@");
-      for (String result : eachLine) {
-        endoPara.add(result);
-      }
-    }
-  }
+			if (rppNeed.booleanValue()) {
+				outputLine = outputLine + "TEXT\"" + workingLine + "\"; RPP; " + tempHorMove + tempMove;
+			} else {
+				outputLine = outputLine + "TEXT\"" + workingLine + "\"; " + tempHorMove + tempMove;
+			}
+
+			if (unbold.booleanValue()) {
+				outputLine = outputLine + " " + normalFont;
+			}
+
+			String[] eachLine = outputLine.split("@");
+			for (String result : eachLine) {
+			//System.out.println("result para = <"+result+">");
+				endoPara.add(result);
+			}
+		}
+	}
 }

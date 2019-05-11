@@ -1,28 +1,69 @@
 package ClassicEndoGen;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JRadioButton;
 import javax.swing.JCheckBox;
 import javax.swing.JButton;
 import javax.swing.AbstractAction;
-
-import java.awt.event.ActionEvent;
-
 import javax.swing.Action;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+
+import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class GIU extends JFrame {
 	
+	//CLASS VARIABLES
+	private static final long serialVersionUID = 1L;
+	
+	//INSTANCE VARIABLES
 	ClassicEndoGen EndoGen = new ClassicEndoGen();
+	
+	
+	private JPanel contentPane;
+	private final Action action = new SwingAction();
+	
+	private JCheckBox PrecisCheckBox;
+	private JCheckBox ClassicCheckBox;
+
+	private JLabel lblSchemeCode;
+	private JLabel lblLineSpace;
+	private JLabel lblParaSpace;
+	private JLabel lblBottomMargin;
+	private JLabel lblPageHeight;
+	private JLabel lblTotHeightCalc;
+	private JLabel lblCurrentHeightCalc;
+	private JLabel lblBoldFont;
+	private JLabel lblNormalFont;
+	private JLabel lblLineSize;
+	private JLabel lblPolicyType;
+	private JLabel lblBrokerCode1;
+	private JLabel lblBrokerCode2;
+	private JLabel lblAffinityCode;
+	private JLabel lblStartDate;
+	private JLabel lblEndDate;
+	
+	private JTextField Classic_Normal_Font;
+	private JTextField Classic_Line_Size;
+	private JTextField Classic_Bold_Font;
+	private JTextField Classic_Current_Height;
+	private JTextField classic_LineSpace;
+	private JTextField Classic_paragraphSpace;
+	private JTextField Classic_Margin;
+	private JTextField Classic_Page_Height;
+	private JTextField Classic_Total_Height;
+	private JTextField SchemeCodeValue = new JTextField();
+	private JTextField PolicyTypeValue;
+	private JTextField BrokerCode1Value;
+	private JTextField BrokerCode2Value;
+	private JTextField AffinityCodeValue;
+	private JTextField StartDateValue;
+	private JTextField EndDateValue;
 	
 	public static void main(String[] args){
 		
@@ -36,47 +77,9 @@ public class GIU extends JFrame {
 				}
 			}
 		});
-		
-	/*	ReadFile inputData = new ReadFile();
-		List rawData = inputData.getData(); 	
-		showExelData(rawData, inputData);*/
 	}
 
-	private JPanel contentPane;
-	private final Action action = new SwingAction();
 
-	
-	private JCheckBox PrecisCheckBox;
-	private JCheckBox ClassicCheckBox;
-	
-	private JTextField SchemeCodeValue = new JTextField();
-	private JTextField PolicyTypeValue;
-	private JTextField BrokerCode1Value;
-	private JTextField BrokerCode2Value;
-	private JTextField AffinityCodeValue;
-	private JTextField StartDateValue;
-	private JTextField EndDateValue;
-	
-	JLabel lblNewLabel = new JLabel("Scheme Code");
-	private JTextField Classic_Bold_Font;
-	private JTextField Classic_Current_Height;
-	private JTextField classic_LineSpace;
-	private JTextField Classic_paragraphSpace;
-	private JTextField Classic_Margin;
-	private JTextField Classic_Page_Height;
-	private JTextField Classic_Total_Height;
-	private JLabel lblNewLabel_7;
-	private JLabel lblNewLabel_8;
-	private JLabel lblNewLabel_9;
-	private JLabel lblNewLabel_10;
-	private JLabel lblNewLabel_11;
-	private JLabel lblNewLabel_12;
-	private JLabel lblNewLabel_13;
-	private JTextField Classic_Normal_Font;
-	private JTextField Classic_Line_Size;
-	private JLabel lblNewLabel_14;
-	private JLabel lblNewLabel_15;
-	
 	/**
 	 * Create the frame.
 	 */
@@ -88,6 +91,8 @@ public class GIU extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		createLabels();
 		
 		ClassicCheckBox = new JCheckBox("Classic");
 		ClassicCheckBox.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -150,46 +155,7 @@ public class GIU extends JFrame {
 		contentPane.add(EndDateValue);
 		EndDateValue.setColumns(10);
 		
-		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel.setBounds(276, 40, 65, 14);
-		contentPane.add(lblNewLabel);
-		
-		JLabel lblNewLabel_1 = new JLabel("Policy Type");
-		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_1.setBounds(287, 71, 55, 14);
-		contentPane.add(lblNewLabel_1);
-		
-		JLabel lblNewLabel_2 = new JLabel("Broker Code 1");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblNewLabel_2.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_2.setBounds(265, 102, 76, 14);
-		contentPane.add(lblNewLabel_2);
-		
-		JLabel lblNewLabel_3 = new JLabel("broker Code 2");
-		lblNewLabel_3.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblNewLabel_3.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_3.setBounds(265, 133, 76, 14);
-		contentPane.add(lblNewLabel_3);
-		
-		JLabel lblNewLabel_4 = new JLabel("Affinity Code");
-		lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblNewLabel_4.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_4.setBounds(265, 164, 76, 14);
-		contentPane.add(lblNewLabel_4);
-		
-		JLabel lblNewLabel_5 = new JLabel("Start Date");
-		lblNewLabel_5.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblNewLabel_5.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_5.setBounds(276, 195, 65, 14);
-		contentPane.add(lblNewLabel_5);
-		
-		JLabel lblNewLabel_6 = new JLabel("End Date");
-		lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblNewLabel_6.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_6.setBounds(276, 226, 65, 14);
-		contentPane.add(lblNewLabel_6);
+
 		
 		Classic_Bold_Font = new JTextField();
 		Classic_Bold_Font.setText("FONT 56;");
@@ -233,73 +199,121 @@ public class GIU extends JFrame {
 		contentPane.add(Classic_Total_Height);
 		Classic_Total_Height.setColumns(10);
 		
-		lblNewLabel_7 = new JLabel("Line Space");
-		lblNewLabel_7.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_7.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblNewLabel_7.setBounds(37, 40, 76, 14);
-		contentPane.add(lblNewLabel_7);
-		
-		lblNewLabel_8 = new JLabel("Paragraphs Space");
-		lblNewLabel_8.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblNewLabel_8.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_8.setBounds(10, 71, 103, 14);
-		contentPane.add(lblNewLabel_8);
-		
-		lblNewLabel_9 = new JLabel("Bottom Margin");
-		lblNewLabel_9.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblNewLabel_9.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_9.setBounds(37, 102, 76, 14);
-		contentPane.add(lblNewLabel_9);
-		
-		lblNewLabel_10 = new JLabel("Page Height");
-		lblNewLabel_10.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_10.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblNewLabel_10.setBounds(37, 133, 76, 14);
-		contentPane.add(lblNewLabel_10);
-		
-		lblNewLabel_11 = new JLabel("Total Height calc");
-		lblNewLabel_11.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblNewLabel_11.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_11.setBounds(27, 164, 86, 14);
-		contentPane.add(lblNewLabel_11);
-		
-		lblNewLabel_12 = new JLabel("Current Height calc");
-		lblNewLabel_12.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_12.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblNewLabel_12.setBounds(10, 195, 103, 14);
-		contentPane.add(lblNewLabel_12);
-		
-		lblNewLabel_13 = new JLabel("Bold Font");
-		lblNewLabel_13.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblNewLabel_13.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_13.setBounds(37, 226, 76, 14);
-		contentPane.add(lblNewLabel_13);
-		
 		Classic_Normal_Font = new JTextField();
 		Classic_Normal_Font.setText("FONT 13;");
 		Classic_Normal_Font.setBounds(123, 254, 86, 20);
 		contentPane.add(Classic_Normal_Font);
-		Classic_Normal_Font.setColumns(10);
+	//	Classic_Normal_Font.setColumns(10);
 		
 		Classic_Line_Size = new JTextField();
 		Classic_Line_Size.setText("140");
 		Classic_Line_Size.setBounds(123, 285, 86, 20);
 		contentPane.add(Classic_Line_Size);
-		Classic_Line_Size.setColumns(10);
-		
-		lblNewLabel_14 = new JLabel("Normal Font");
-		lblNewLabel_14.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblNewLabel_14.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_14.setBounds(37, 257, 76, 14);
-		contentPane.add(lblNewLabel_14);
-		
-		lblNewLabel_15 = new JLabel("Line Size");
-		lblNewLabel_15.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		lblNewLabel_15.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblNewLabel_15.setBounds(10, 288, 103, 14);
-		contentPane.add(lblNewLabel_15);
+	//	Classic_Line_Size.setColumns(10);
 	}
+	
+	private void createLabels() {
+		lblNormalFont = new JLabel("Normal Font");
+		lblNormalFont.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblNormalFont.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblNormalFont.setBounds(37, 257, 76, 14);
+		contentPane.add(lblNormalFont);
+		
+		lblLineSize = new JLabel("Line Size");
+		lblLineSize.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblLineSize.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblLineSize.setBounds(10, 288, 103, 14);
+		contentPane.add(lblLineSize);
+		
+		lblLineSpace = new JLabel("Line Space");
+		lblLineSpace.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblLineSpace.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblLineSpace.setBounds(37, 40, 76, 14);
+		contentPane.add(lblLineSpace);
+		
+		lblParaSpace = new JLabel("Paragraphs Space");
+		lblParaSpace.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblParaSpace.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblParaSpace.setBounds(10, 71, 103, 14);
+		contentPane.add(lblParaSpace);
+		
+		lblBottomMargin = new JLabel("Bottom Margin");
+		lblBottomMargin.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblBottomMargin.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblBottomMargin.setBounds(37, 102, 76, 14);
+		contentPane.add(lblBottomMargin);
+		
+		lblPageHeight = new JLabel("Page Height");
+		lblPageHeight.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblPageHeight.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblPageHeight.setBounds(37, 133, 76, 14);
+		contentPane.add(lblPageHeight);
+		
+		lblTotHeightCalc = new JLabel("Total Height calc");
+		lblTotHeightCalc.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblTotHeightCalc.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblTotHeightCalc.setBounds(27, 164, 86, 14);
+		contentPane.add(lblTotHeightCalc);
+		
+		lblCurrentHeightCalc = new JLabel("Current Height calc");
+		lblCurrentHeightCalc.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblCurrentHeightCalc.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblCurrentHeightCalc.setBounds(10, 195, 103, 14);
+		contentPane.add(lblCurrentHeightCalc);
+		
+		lblBoldFont = new JLabel("Bold Font");
+		lblBoldFont.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblBoldFont.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblBoldFont.setBounds(37, 226, 76, 14);
+		contentPane.add(lblBoldFont);
+		
+		lblSchemeCode = new JLabel("Scheme Code");
+		lblSchemeCode.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblSchemeCode.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblSchemeCode.setBounds(276, 40, 65, 14);
+		contentPane.add(lblSchemeCode);
+		
+		lblPolicyType = new JLabel("Policy Type");
+		lblPolicyType.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblPolicyType.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblPolicyType.setBounds(287, 71, 55, 14);
+		contentPane.add(lblPolicyType);
+		
+		lblBrokerCode1 = new JLabel("Broker Code 1");
+		lblBrokerCode1.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblBrokerCode1.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblBrokerCode1.setBounds(265, 102, 76, 14);
+		contentPane.add(lblBrokerCode1);
+		
+		lblBrokerCode2 = new JLabel("broker Code 2");
+		lblBrokerCode2.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblBrokerCode2.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblBrokerCode2.setBounds(265, 133, 76, 14);
+		contentPane.add(lblBrokerCode2);
+		
+		lblAffinityCode = new JLabel("Affinity Code");
+		lblAffinityCode.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblAffinityCode.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblAffinityCode.setBounds(265, 164, 76, 14);
+		contentPane.add(lblAffinityCode);
+		
+		lblStartDate = new JLabel("Start Date");
+		lblStartDate.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblStartDate.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblStartDate.setBounds(276, 195, 65, 14);
+		contentPane.add(lblStartDate);
+		
+		lblEndDate = new JLabel("End Date");
+		lblEndDate.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblEndDate.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblEndDate.setBounds(276, 226, 65, 14);
+		contentPane.add(lblEndDate);
+		
+	}
+	
 	private class SwingAction extends AbstractAction{
+		
+		private static final long serialVersionUID = 1L;
 		public SwingAction() {
 			putValue(NAME, "Generate");
 			putValue(SHORT_DESCRIPTION, "Some short description");

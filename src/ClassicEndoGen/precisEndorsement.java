@@ -90,8 +90,7 @@ public class precisEndorsement {
 	}
 
 	private void checkBulletStart(String rawString) throws Exception {
-		if ((Character.toString(rawString.charAt(0)).equals("â€¢"))
-				|| (Character.toString(rawString.charAt(0)).equals("Â·"))) {
+		if (Character.toString(rawString.charAt(0)).equals("•") || Character.toString(rawString.charAt(0)).equals("·")){
 			if (!bullet) {
 				bullet = true;
 				data.writeToFile(tripleSpace + "<ol>");
@@ -104,9 +103,9 @@ public class precisEndorsement {
 		}
 	}
 
-	private String formatWording(String rawString)
-    throws Exception
-  {
+	private String formatWording(String rawString) throws Exception
+	{
+	rawString = rawString.trim().replaceAll(" +", " ");	
     String formated = "";
     boolean foundChar = false;
     
@@ -165,10 +164,8 @@ public class precisEndorsement {
       else if ((!Character.toString(rawString.charAt(x)).equals("•")) && (!Character.toString(rawString.charAt(x)).equals("·")))
       {
 
-        if (rawString.charAt(x) != ' ')
-        {
-        	formated = formated + rawString.toString().charAt(x);
-        }
+    	  formated = formated + rawString.toString().charAt(x);
+
       }
     }
     
