@@ -1,32 +1,38 @@
 package ClassicEndoGen;
-
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+/*
+ * Class create and write to a file
+ */
 public class WriteFile {
-	private String path;
-	private boolean append_to_file = false;
+	private String path;//file path
 
-	public WriteFile(String file_path) {
-		path = file_path;
+	//Create file
+	public WriteFile(String path, boolean append_value){
+		this.path = path;
+		try {
+			FileWriter write = new FileWriter(this.path);
+			PrintWriter print_line = new PrintWriter(write);
+			print_line.print("");
+			print_line.close();
+		} catch (IOException e) {
+			System.out.println("Error create file : "+this.path);
+			e.printStackTrace();
+		}
 	}
 
-	public WriteFile(String file_path, boolean append_value) throws IOException {
-		path = file_path;
-		append_to_file = append_value;
-
-		FileWriter write = new FileWriter(path);
-		PrintWriter print_line = new PrintWriter(write);
-		print_line.print("");
-		print_line.close();
-	}
-
-	public void writeToFile(String textLine) throws IOException {
-		FileWriter write = new FileWriter(path, append_to_file);
-		PrintWriter print_line = new PrintWriter(write);
-
-		print_line.println(textLine);
-		print_line.close();
+	//Write line to file
+	public void writeLineToFile(String textLine, boolean appendToFile){
+		try {
+			FileWriter write = new FileWriter(path, appendToFile);
+			PrintWriter print_line = new PrintWriter(write);
+			print_line.println(textLine);
+			print_line.close();
+		} catch (IOException e) {
+			System.out.println("Error write line <"+textLine+"> to: "+path);
+			e.printStackTrace();
+		}
 	}
 }

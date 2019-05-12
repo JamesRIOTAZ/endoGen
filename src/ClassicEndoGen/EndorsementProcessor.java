@@ -139,14 +139,12 @@ public class EndorsementProcessor{
 	private void createEndos(WriteFile classicFile, WriteFile precisFile) throws Exception{			
 		if ((tempCode != null) && (!tempCode.isEmpty())) {
 			if (doClassic) {
-				endorsement classicEndo = new endorsement();
-				classicEndo.setValues(classicBoldFont, classicNormalFont, classicCurrentHeight, classicLineSpace, classicParaSpace, classicMargin, classicPageHeight, classicTotalHeight, classicLineSize);
+				ClassicEndorsement classicEndo = new ClassicEndorsement(classicBoldFont, classicNormalFont, classicCurrentHeight, classicLineSpace, classicParaSpace, classicMargin, classicPageHeight, classicTotalHeight, classicLineSize);
 				classicEndo.setDetails(tempCode, tempTitle, tempWording, classicFile);
 				classicEndo.add();
 			}
 			if (doPrecis) {
-				precisEndorsement precisEndo = new precisEndorsement();
-				precisEndo.setValues(precisScheme, precisPolType, precisBrokerCode1, precisBrokerCode2, precisAffinty, precisStartDate, precisEndDate);
+				PrecisEndorsement precisEndo = new PrecisEndorsement(precisScheme, precisPolType, precisBrokerCode1, precisBrokerCode2, precisAffinty, precisStartDate, precisEndDate);
 				precisEndo.setDetails(tempCode, tempTitle, tempWording, precisFile);
 				precisEndo.add();
 			}

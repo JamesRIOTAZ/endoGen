@@ -2,92 +2,79 @@ package ClassicEndoGen;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
 
 public class ReadFile {
 	HSSFWorkbook workbook;
 
-	public ReadFile() {
-	}
-
-	public List<List<HSSFCell>> getData() throws Exception {
-		String filename = "c:/endoGen/endorsement.xls";
-
-		List sheetData = new ArrayList();
-
+	//create a list of HSSFCells
+	public List<List<HSSFCell>> getData(){
+		String filename = "c:/endoGen/endorsement.xls"; //open source file
+		List<List<HSSFCell>> sheetData = new ArrayList<>();
 		FileInputStream fis = null;
 
 		try {
 			fis = new FileInputStream(filename);
-			workbook = new HSSFWorkbook(fis);
-			HSSFSheet sheet = workbook.getSheetAt(0);
-			List data = new ArrayList();
-			Iterator rows = sheet.rowIterator();
+			workbook = new HSSFWorkbook(fis);//get workbook
+			HSSFSheet sheet = workbook.getSheetAt(0);//get sheet from workbook
+			List<HSSFCell> cellList = new ArrayList<>(); //Arraylist will hold cells for endorsement
+			Iterator<Row> rows = sheet.rowIterator();
+			
 			while (rows.hasNext()) {
 				HSSFRow row = (HSSFRow) rows.next();
-				Iterator cells = row.cellIterator();
-
 				HSSFCell cell = row.getCell(0);
 
-				if ((hasText(cell)) && (cell.toString() == "END")) {
-					sheetData.add(data);
+				if ((hasText(cell)) && (cell.toString() == "END")) { //look for terminator 
+					sheetData.add(cellList);
 				} else {
 					if (hasText(cell)) {
 						if (row.getRowNum() != 0) {
-							sheetData.add(data);
-							data = new ArrayList();
+							sheetData.add(cellList);
+							cellList = new ArrayList<>();
 						}
-						data.add(cell);
+						cellList.add(cell);
 						HSSFCell cell1 = row.getCell(1);
-						data.add(cell1);
+						cellList.add(cell1);
 					}
 					HSSFCell cell2 = row.getCell(2);
 					if (hasText(cell2)) {
-						HSSFRichTextString rts = cell2.getRichStringCellValue();
-
-						data.add(cell2);
+						cellList.add(cell2);
 					}
-
 				}
-
 			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
 			if (fis != null) {
 				fis.close();
 			}
+		}catch(IOException e){
+			e.printStackTrace();
 		}
-
 		return sheetData;
 	}
 
+	//Check if a given Cell has text
 	private boolean hasText(HSSFCell cell) {
-		if (cell == null) {
+		if((cell == null) || (cell.getCellType() == 3))
 			return false;
-		}
-
-		if (cell.getCellType() == 3) {
-			return false;
-		}
-
-		return true;
+		else
+			return true;
 	}
-
+	//Check if a given rts if bold
 	public boolean checkBold(HSSFRichTextString rts, int index) {
 		HSSFFont font = workbook.getFontAt(rts.getFontAtIndex(index));
-		if (font.getBoldweight() == 700) {
+		if (font.getBoldweight() == 700)
 			return true;
-		}
-		return false;
+		else
+			return false;
 	}
 }

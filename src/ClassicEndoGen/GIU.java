@@ -155,8 +155,6 @@ public class GIU extends JFrame {
 		contentPane.add(EndDateValue);
 		EndDateValue.setColumns(10);
 		
-
-		
 		Classic_Bold_Font = new JTextField();
 		Classic_Bold_Font.setText("FONT 56;");
 		Classic_Bold_Font.setBounds(123, 223, 86, 20);
@@ -203,13 +201,11 @@ public class GIU extends JFrame {
 		Classic_Normal_Font.setText("FONT 13;");
 		Classic_Normal_Font.setBounds(123, 254, 86, 20);
 		contentPane.add(Classic_Normal_Font);
-	//	Classic_Normal_Font.setColumns(10);
 		
 		Classic_Line_Size = new JTextField();
 		Classic_Line_Size.setText("140");
 		Classic_Line_Size.setBounds(123, 285, 86, 20);
 		contentPane.add(Classic_Line_Size);
-	//	Classic_Line_Size.setColumns(10);
 	}
 	
 	private void createLabels() {
@@ -319,18 +315,13 @@ public class GIU extends JFrame {
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 		public void actionPerformed(ActionEvent e){
-			System.out.println("pressed");
 			try{
 				if(PrecisCheckBox.isSelected()){
 					EndoGen.setPrecisValues(PrecisCheckBox.isSelected(),SchemeCodeValue.getText(),PolicyTypeValue.getText(),BrokerCode1Value.getText(),BrokerCode2Value.getText(),AffinityCodeValue.getText(),StartDateValue.getText(),EndDateValue.getText());
-				//	System.out.println("set precis values");
 				}
 				if(ClassicCheckBox.isSelected()){
 					EndoGen.setClassicValues(ClassicCheckBox.isSelected(),Classic_Bold_Font.getText() , Classic_Normal_Font.getText() , Classic_Current_Height.getText() ,  classic_LineSpace.getText() , Classic_paragraphSpace.getText() , Classic_Margin.getText() , Classic_Page_Height.getText() , Classic_Total_Height.getText() , Classic_Line_Size.getText());
-				//	System.out.println("set classic values");
 				}
-				
-			//	EndoGen.setValues(ClassicCheckBox.isSelected(), PrecisCheckBox.isSelected());
 				EndoGen.run();
 			}
 			catch(Exception ex){

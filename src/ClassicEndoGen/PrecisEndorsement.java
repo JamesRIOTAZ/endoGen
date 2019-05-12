@@ -1,17 +1,15 @@
 package ClassicEndoGen;
 
-import java.util.ArrayList;
-
-public class precisEndorsement {
+public class PrecisEndorsement {
 	WriteFile data;
-	private ArrayList<String> endoPara = new ArrayList<>();
-	private String schemeCode = "XX";
-	private String polType = "PC";
-	private String brokerCode1 = "ALL";
-	private String brokerCode2 = "ALL";
-	private String affinityCode = "ALL";
-	private String startDate = "PAST";
-	private String endDate = "FUTURE";
+
+	private String schemeCode;
+	private String polType;
+	private String brokerCode1;
+	private String brokerCode2;
+	private String affinityCode;
+	private String startDate;
+	private String endDate;
 
 	private String code;
 
@@ -24,7 +22,14 @@ public class precisEndorsement {
 	boolean bullet = false;
 	boolean lastParagraph = false;
 
-	public precisEndorsement() {
+	public PrecisEndorsement(String schemeCode, String polType, String brokerCode1, String brokerCode2, String affinityCode, String startDate, String endDate) {
+		this.schemeCode = schemeCode;
+		this.polType = polType;
+		this.brokerCode1 = brokerCode1;
+		this.brokerCode2 = brokerCode2;
+		this.affinityCode = affinityCode;
+		this.startDate = startDate;
+		this.endDate = endDate;
 	}
 
 	public void setValues(String gui_Scheme, String gui_poltype, String gui_brokerCode1, String gui_brokerCode2,
@@ -47,24 +52,24 @@ public class precisEndorsement {
 	}
 
 	public void add() throws Exception {
-		data.writeToFile(space + "<endorsement>");
-		data.writeToFile(doubleSpace + "<policy-type>" + polType + "</policy-type>");
-		data.writeToFile(doubleSpace + "<scheme-code>" + schemeCode + "</scheme-code>");
-		data.writeToFile(doubleSpace + "<endorsement-details>");
-		data.writeToFile(tripleSpace + "<endorsement-code>" + code + "</endorsement-code>");
-		data.writeToFile(tripleSpace + "<broker-code-1>" + brokerCode1 + "</broker-code-1>");
-		data.writeToFile(tripleSpace + "<broker-code-2>" + brokerCode2 + "</broker-code-2>");
-		data.writeToFile(tripleSpace + "<affinity>" + affinityCode + "</affinity>");
-		data.writeToFile(tripleSpace + "<start-date>" + startDate + "</start-date>");
-		data.writeToFile(tripleSpace + "<end-date>" + endDate + "</end-date>");
-		data.writeToFile(tripleSpace + "<wording>");
-		data.writeToFile(tripleSpace + "<![CDATA[<div>");
-		data.writeToFile(tripleSpace + "<h4>" + title + "</h4>");
+		data.writeLineToFile(space + "<endorsement>", true);
+		data.writeLineToFile(doubleSpace + "<policy-type>" + polType + "</policy-type>", true);
+		data.writeLineToFile(doubleSpace + "<scheme-code>" + schemeCode + "</scheme-code>", true);
+		data.writeLineToFile(doubleSpace + "<endorsement-details>", true);
+		data.writeLineToFile(tripleSpace + "<endorsement-code>" + code + "</endorsement-code>", true);
+		data.writeLineToFile(tripleSpace + "<broker-code-1>" + brokerCode1 + "</broker-code-1>", true);
+		data.writeLineToFile(tripleSpace + "<broker-code-2>" + brokerCode2 + "</broker-code-2>", true);
+		data.writeLineToFile(tripleSpace + "<affinity>" + affinityCode + "</affinity>", true);
+		data.writeLineToFile(tripleSpace + "<start-date>" + startDate + "</start-date>", true);
+		data.writeLineToFile(tripleSpace + "<end-date>" + endDate + "</end-date>", true);
+		data.writeLineToFile(tripleSpace + "<wording>", true);
+		data.writeLineToFile(tripleSpace + "<![CDATA[<div>", true);
+		data.writeLineToFile(tripleSpace + "<h4>" + title + "</h4>", true);
 		writeWording();
-		data.writeToFile(tripleSpace + "</div>]]></wording>");
-		data.writeToFile(doubleSpace + "</endorsement-details>");
-		data.writeToFile(space + "</endorsement>");
-		data.writeToFile("");
+		data.writeLineToFile(tripleSpace + "</div>]]></wording>", true);
+		data.writeLineToFile(doubleSpace + "</endorsement-details>", true);
+		data.writeLineToFile(space + "</endorsement>", true);
+		data.writeLineToFile("", true);
 	}
 
 	private void writeWording() throws Exception {
@@ -75,16 +80,14 @@ public class precisEndorsement {
 			checkBulletStart(paragraphs[x]);
 
 			if (bullet) {
-				String tempWording;
-				data.writeToFile(tripleSpace + space + "<li>" + formatWording(tempWording = paragraphs[x]) + "</li>");
+				data.writeLineToFile(tripleSpace + space + "<li>" + formatWording(paragraphs[x]) + "</li>", true);
 			} else {
-				String tempWording;
-				data.writeToFile(tripleSpace + "<p>" + formatWording(tempWording = paragraphs[x]) + "</p>");
+				data.writeLineToFile(tripleSpace + "<p>" + formatWording(paragraphs[x]) + "</p>", true);
 			}
 			if ((paragraphs.length - 1 == x) && (bullet)) {
 				bullet = true;
-				data.writeToFile(tripleSpace + "</ol>");
-				data.writeToFile(tripleSpace + "<p></p>");
+				data.writeLineToFile(tripleSpace + "</ol>", true);
+				data.writeLineToFile(tripleSpace + "<p></p>", true);
 			}
 		}
 	}
@@ -93,10 +96,10 @@ public class precisEndorsement {
 		if (Character.toString(rawString.charAt(0)).equals("•") || Character.toString(rawString.charAt(0)).equals("·")){
 			if (!bullet) {
 				bullet = true;
-				data.writeToFile(tripleSpace + "<ol>");
+				data.writeLineToFile(tripleSpace + "<ol>",true);
 			}
 		} else if (bullet) {
-			data.writeToFile(tripleSpace + "</ol>");
+			data.writeLineToFile(tripleSpace + "</ol>",true);
 			bullet = false;
 		} else {
 			bullet = false;
@@ -107,7 +110,7 @@ public class precisEndorsement {
 	{
 	rawString = rawString.trim().replaceAll(" +", " ");	
     String formated = "";
-    boolean foundChar = false;
+ //   boolean foundChar = false;
     
 
 
